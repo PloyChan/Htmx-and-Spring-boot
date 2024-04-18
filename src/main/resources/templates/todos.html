@@ -10,8 +10,9 @@
     <style>
 
         :root {
-            --gutter : 0.5em;
+            --gutter: 0.5em;
         }
+
         body {
             padding: var(--gutter);
         }
@@ -32,12 +33,15 @@
             grid: 'id title buttons';
             grid-template-columns: 3vw auto 20vw;
         }
+
         .todo .buttons {
             grid-area: buttons;
         }
+
         .todo .title {
 
         }
+
         .todo .id {
 
         }
@@ -45,32 +49,37 @@
 
 </head>
 <body>
-<div th:each="todo : ${todos}">
-    <div th:text="${todo.id()}">ID </div>
-    <div th:text="${todo.title()}">ID </div>
-    <div>
-        <button
-                hx-confirm = "you sure?"
-                th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
-                hx-swap="outerHTML"
-                hx-target="closest .todo"
-        >
-            Delete</button>
+<div th:fragment="todo-list" id="todo-list">
+    <div th:each="todo : ${todos}" id="todo">
+        <div th:text="${todo.id()}">ID</div>
+        <div th:text="${todo.title()}">ID</div>
+        <div>
+            <button
+                    hx-confirm="you sure?"
+                    th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
+                    hx-swap="outerHTML"
+                    hx-target="closest #todo"
+                >
+                Delete
+            </button>
+        </div>
     </div>
 </div>
 
+
 <div id="todos-form">
-<div class="line todo">
-    <input type="text" name="new-todo" id="new-todo" />
-    <div class="buttons">
-        <button
-                hx-post="/todos"
-                hx-include="#new-todo"
-        >
-            Add
-        </button>
+    <div class="line todo">
+        <input type="text" name="new-todo" id="new-todo"/>
+        <div class="buttons">
+            <button
+                    hx-post="/todos"
+                    hx-include="#new-todo"
+                    hx-target="#todo-list"
+            >
+                Add
+            </button>
+        </div>
     </div>
-</div>
 </div>
 </body>
 </html>
