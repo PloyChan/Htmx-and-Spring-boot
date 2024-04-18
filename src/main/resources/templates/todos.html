@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>My To Do List</title>
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <style>
+
+        :root {
+            --gutter : 0.5em;
+        }
+        body {
+            padding: var(--gutter);
+        }
+
+        .line {
+            border-top: 1px solid black;
+            margin-top: var(--gutter);
+            padding-top: var(--gutter);
+        }
+
+        .title input[type="text"] {
+            width: calc(100% - var(--gutter));
+        }
+
+        .todo {
+            grid-gap: var(--gutter);
+            display: grid;
+            grid: 'id title buttons';
+            grid-template-columns: 3vw auto 20vw;
+        }
+        .todo .buttons {
+            grid-area: buttons;
+        }
+        .todo .title {
+
+        }
+        .todo .id {
+
+        }
+    </style>
+
+</head>
+<body>
+<div th:each="todo : ${todos}">
+    <div th:text="${todo.id()}">ID </div>
+    <div th:text="${todo.title()}">ID </div>
+    <div>
+        <button
+                hx-confirm = "you sure?"
+                th:attr="hx-delete=@{/todos/{id}(id=${todo.id})}"
+                hx-swap="outerHTML"
+                hx-target="closest .todo"
+        >
+            Delete</button>
+    </div>
+</div>
+
+<div id="todos-form">
+<div class="line todo">
+    <input type="text" name="new-todo" id="new-todo" />
+    <div class="buttons">
+        <button
+                hx-post="/todos"
+                hx-include="#new-todo"
+        >
+            Add
+        </button>
+    </div>
+</div>
+</div>
+</body>
+</html>
