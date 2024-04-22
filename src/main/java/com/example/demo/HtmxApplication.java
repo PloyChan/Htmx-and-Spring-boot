@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import io.github.wimdeblauwe.hsbt.mvc.HtmxResponse;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -60,10 +61,11 @@ class TodoController {
     }
 
     @PostMapping
-    String add(@RequestParam("new-todo") String title, Model model) {
+    HtmxResponse add(@RequestParam("new-todo") String title, Model model) {
         this.todoRepository.save(new Todo(null, title));
         model.addAttribute("todos",this.todoRepository.findAll());
-        return "todos :: todos-list";
+        return new HtmxResponse()
+                .addTemplate("todos :: todos-list");
     }
     @ResponseBody
     @DeleteMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)

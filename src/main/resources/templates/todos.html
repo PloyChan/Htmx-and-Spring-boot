@@ -49,7 +49,7 @@
 
 </head>
 <body>
-<div th:fragment="todo-list" id="todo-list">
+<div th:fragment="todos-list" id="todos-list">
     <div th:each="todo : ${todos}" id="todo">
         <div th:text="${todo.id()}">ID</div>
         <div th:text="${todo.title()}">ID</div>
@@ -64,20 +64,25 @@
             </button>
         </div>
     </div>
-    <div id="todos-form">
-        <div class="line todo">
+</div>
+<div th:fragment="todos-form" id="todos-form">
+    <div class="line todo">
+        <div></div>
+        <div class="title">
             <input type="text" name="new-todo" id="new-todo">
-            <div class="buttons">
-                <button
-                        hx-post="/todos"
-                        hx-include="#new-todo"
-                        hx-target="#todo"
-                >
-                    Add
-                </button>
-            </div>
+        </div>
+
+        <div class="buttons">
+            <button
+                    hx-post="/todos"
+                    hx-include="#new-todo"
+                    hx-target="#todos-list"
+            >
+                Add
+            </button>
         </div>
     </div>
 </div>
+
 </body>
 </html>
