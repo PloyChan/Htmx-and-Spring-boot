@@ -60,12 +60,18 @@ class TodoController {
         return "todos";
     }
 
+//    @PostMapping
+//    HtmxResponse add(@RequestParam("new-todo") String title, Model model) {
+//        this.todoRepository.save(new Todo(null, title));
+//        model.addAttribute("todos",this.todoRepository.findAll());
+//        return new HtmxResponse()
+//                .addTemplate("todos :: todos-list");
+//    }
     @PostMapping
-    HtmxResponse add(@RequestParam("new-todo") String title, Model model) {
+    String add(@RequestParam("new-todo") String title, Model model) {
         this.todoRepository.save(new Todo(null, title));
         model.addAttribute("todos",this.todoRepository.findAll());
-        return new HtmxResponse()
-                .addTemplate("todos :: todos-list");
+        return  "todos :: todos-list";
     }
     @ResponseBody
     @DeleteMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
